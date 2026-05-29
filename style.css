@@ -2,90 +2,146 @@
     box-sizing:border-box;
     font-family:'Times New Roman', Times, serif, sans-serif;
 }
+
 body{
     display:flex;
     background:#ebedef;
+    transform:scale(0.92);      
+    transform-origin: top left;
+    width:108.7%;
 }
+
 .sidepanel{
-    width:240px;
-    height:100vh;
+    width:190px;                 
+    height:130vh;
     background:rgb(156, 0, 0);
     color:white;
-    padding:20px;
+    padding:20px 12px;
     position:fixed;
 }
+.sidepanel ul{
+    list-style:none;
+    padding:0;
+}
+
 .sidepanel ul button{
-    padding:15px;
+    width:100%;
+    padding:12px;
     margin-bottom:10px;
     border-radius:8px;
     cursor:pointer;
     transition:0.3s;
+    border:none;
+    background:transparent;      
+    color:white;
+    text-align:left;
+    font-size:15px;
 }
-.sidebar ul button:hover,
-.sidebar ul .active{
-    background:#9e0202;
+
+.sidepanel ul button:hover,
+.sidepanel ul button:active,
+.sidepanel ul .active{
+    background:#c53a3a;          
 }
+
 .main{
-    margin-left:240px;
+    margin-left:190px;          
     width:100%;
-    padding:25px;
+    padding:22px;
 }
+
 .header{
     display:flex;
-    margin-left: 30px;
+    margin-left:20px;
     align-items:center;
-    margin-bottom:30px;
+    margin-bottom:25px;
 }
+
 .options{
-    margin-left: 70px;
+    margin-left:auto;
     display:flex;
     gap:10px;
+    align-items:center;
 }
 
 .options select{
-    padding:10px;
+    padding:12px 16px;
     border-radius:8px;
     border:none;
-}
-.options button{
-    padding:10px;
-    border-radius:8px;
-    border:none;
+    font-size:15px;
 }
 
 .options button{
+    padding:12px 18px;
+    border-radius:8px;
+    border:none;
     background:#a40000;
     color:white;
     cursor:pointer;
+    font-size:15px;
 }
+
 .cards{
-    display: flex;
-    gap: 20px;
-    margin-bottom: 30px;
+    display:flex;
+    gap:18px;
+    margin-bottom:25px;
 }
+
 .card{
-    width:350px;
+    width:300px;                
     background:white;
-    padding:20px;
+    padding:18px;
     border-radius:12px;
     box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
-.card h3{ margin-bottom:10px;
-    color:#220101;}
-    .card p{
-    font-size:28px;
+
+.card h3{
+    margin-bottom:10px;
+    color:#220101;
+}
+
+.card p{
+    font-size:24px;
     font-weight:bold;
     color:#a20000;
 }
+
 .charts{
     display:flex;
-    gap:20px;
-    margin-bottom:30px;
+    gap:18px;
+    margin-bottom:25px;
 }
 
 .chart-box{
     background:white;
-    padding:20px;
+    padding:18px;
     border-radius:12px;
     box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.table-section{
+    background:white;
+    padding:18px;
+    border-radius:12px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+table{
+    border-spacing:0;
+    width:100%;
+    margin-top:20px;
+}
+
+td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+th{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+    background:#920000;
+    color:white;
 }
