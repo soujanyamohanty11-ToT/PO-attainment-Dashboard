@@ -6,7 +6,7 @@
   <title>PO Dashboard</title>
   <link rel="stylesheet" href="style.css">
 
-  <!-- Chart.js library for graphs -->
+  <!-- Chart.js library for graphs (can make charts using javascript) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
@@ -37,4 +37,84 @@
         <option>Engineering Physics</option>
         <option>Structured Programming Methedology</option>
       </select>
+      <button>Apply</button>
+      </div>
+    </div>
+     <div class="cards">
+
+      <div class="card">
+        <h3>Total Students</h3>
+        <p>956</p>
+      </div>
+
+      <div class="card">
+        <h3>Average PO Attainment</h3>
+        <p>x%</p>
+      </div>
+
+      <div class="card">
+        <h3>Highest PO</h3>
+        <p>xyz</p>
+      </div>
+
+      <div class="card">
+        <h3>Weakest PO</h3>
+        <p>xyz</p>
+      </div>
+
+    </div>
+        <div class="charts">
+      <div class="chart-box">
+        <h2>PO-wise Attainment</h2>
+        <canvas id="barChart"></canvas>
+      </div>
+      <div class="chart-box">
+        <h2>Comparative Analytics</h2>
+        <canvas id="lineChart"></canvas>
+      </div>
+
+    </div>
+    <div class="table-section">
+      <h2>Subject-wise Performance</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Average CO</th>
+            <th>Average PO</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>DBMS</td>
+            <td>78%</td>
+            <td>74%</td>
+            <td class="good">Good</td>
+          </tr>
+
+          <tr>
+            <td>CN</td>
+            <td>82%</td>
+            <td>80%</td>
+            <td class="excellent">Excellent</td>
+          </tr>
+
+          <tr>
+            <td>TOC</td>
+            <td>61%</td>
+            <td>58%</td>
+            <td class="poor">Needs Improvement</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+
 </body>
+</html>
