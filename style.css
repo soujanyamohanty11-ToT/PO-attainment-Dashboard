@@ -1,1 +1,38 @@
-
+*{
+    box-sizing:border-box;
+    font-family:'Times New Roman', Times, serif, sans-serif;
+}
+body{
+    display:flex;
+    background:#ebedef;
+}
+.sidepanel{
+    width:240px;
+    height:100vh;
+    background:rgb(156, 0, 0);
+    color:white;
+    padding:20px;
+    position:fixed;
+}
+.sidepanel ul button{
+    padding:15px;
+    margin-bottom:10px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+.sidebar ul button:hover,
+.sidebar ul .active{
+    background:#9e0202;
+}
+.main{
+    margin-left:240px;
+    width:100%;
+    padding:25px;
+}
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
