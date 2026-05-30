@@ -155,3 +155,20 @@ th{
     background:#920000;
     color:white;
 }
+.nav-btn{
+    display:block;
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:8px;
+    background:transparent;
+    color:white;
+    text-decoration:none;
+    text-align:left;
+    font-size:15px;
+    transition:0.3s;
+}
+
+.nav-btn:hover{
+    background:#c53a3a;
+}
