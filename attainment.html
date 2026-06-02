@@ -1,29 +1,194 @@
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>PO Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+<title>PO Dashboard</title>
 
-  <!-- Chart.js library for graphs (can make charts using javascript) -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
-<div class="main">
-    <div class="header">
-      <h1>PO Attainment Visualization System</h1>
 
-      <div class="options">
-        <select>
-          <option>Semester 1</option>
-          <option>Semester 2</option>
-        </select>
-        <select>
-        <option>Applied Mathematics I</option>
-        <option>Engineering Physics</option>
-        <option>Structured Programming Methedology</option>
-      </select>
-      <button>Apply</button>
-      </div>
+<body>
+
+<div class="sidepanel">
+    <h2 style="margin-bottom:30px; text-align:center;">
+        OBE Analytics
+    </h2>
+
+    <ul style="list-style:none;">
+        <a href="index.html" class="nav-btn">Dashboard</a>
+        <a href="attainment.html" class="nav-btn">PO Attainment</a>
+        <a href="analytics.html" class="nav-btn">Analytics</a>
+        <a href="report.html" class="nav-btn">Reports</a>
+        <button>Logout</button>
+    </ul>
+</div>
+
+<div class="main">
+
+    <div class="header">
+
+        <h1>PO Attainment Visualization System</h1>
+
+        <div class="options">
+
+            <select id="semester">
+                <option>Semester 1</option>
+                <option>Semester 2</option>
+            </select>
+
+            <select id="subject">
+                <option>Applied Mathematics I</option>
+                <option>Engineering Physics</option>
+                <option>Structured Programming Methodology</option>
+            </select>
+
+            <button onclick="updateChart()">Apply</button>
+
+        </div>
+
     </div>
+
+    <div class="attainment-layout">
+
+        <div class="graph-panel">
+
+            <div class="graph-header">
+                <h2>PO Attainment Analysis</h2>
+
+                <select id="chartType" onchange="changeChartType()">
+                    <option value="bar">Bar Chart</option>
+                    <option value="line">Line Chart</option>
+                    <option value="pie">Pie Chart</option>
+                </select>
+            </div>
+
+            <canvas id="poChart"></canvas>
+
+        </div>
+
+        <div class="report-panel">
+
+            <h2>Report Summary</h2>
+
+            <div class="report-card">
+                <h3>Average Attainment</h3>
+                <p>82%</p>
+            </div>
+
+            <div class="report-card">
+                <h3>Highest PO</h3>
+                <p>PO3 (91%)</p>
+            </div>
+
+            <div class="report-card">
+                <h3>Weakest PO</h3>
+                <p>PO4 (69%)</p>
+            </div>
+
+            <div class="report-card">
+                <h3>Remarks</h3>
+                <p>
+                    Overall attainment is satisfactory.
+                    Focus on improving PO4 outcomes.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const math1 = [82,76,91,69,74,80];
+const physics1 = [70,85,88,75,80,90];
+const spm1 = [88,92,90,84,95,91];
+
+const math2 = [75,70,82,68,73,79];
+const physics2 = [81,78,90,74,80,86];
+const spm2 = [90,93,89,84,95,91];
+
+let chart = new Chart(
+    document.getElementById("poChart"),
+    {
+        type: "bar",
+        data: {
+            labels: ["PO1","PO2","PO3","PO4","PO5","PO6"],
+            datasets: [{
+                label: "PO Attainment (%)",
+                data: math1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    }
+);
+
+function updateChart(){
+
+    let sem = document.getElementById("semester").value;
+    let sub = document.getElementById("subject").value;
+
+    if(sem=="Semester 1" && sub=="Applied Mathematics I"){
+        chart.data.datasets[0].data = math1;
+    }
+
+    if(sem=="Semester 1" && sub=="Engineering Physics"){
+        chart.data.datasets[0].data = physics1;
+    }
+
+    if(sem=="Semester 1" && sub=="Structured Programming Methodology"){
+        chart.data.datasets[0].data = spm1;
+    }
+
+    if(sem=="Semester 2" && sub=="Applied Mathematics I"){
+        chart.data.datasets[0].data = math2;
+    }
+
+    if(sem=="Semester 2" && sub=="Engineering Physics"){
+        chart.data.datasets[0].data = physics2;
+    }
+
+    if(sem=="Semester 2" && sub=="Structured Programming Methodology"){
+        chart.data.datasets[0].data = spm2;
+    }
+
+    chart.update();
+}
+function changeChartType(){
+
+    let type = document.getElementById("chartType").value;
+
+    let currentData = chart.data.datasets[0].data;
+
+    chart.destroy();
+
+    chart = new Chart(
+        document.getElementById("poChart"),
+        {
+            type:type,
+            data:{
+                labels:["PO1","PO2","PO3","PO4","PO5","PO6"],
+                datasets:[{
+                    label:"PO Attainment (%)",
+                    data:currentData
+                }]
+            },
+            options:{
+                responsive:true,
+                maintainAspectRatio:false
+            }
+        }
+    );
+}
+</script>
+
+</body>
+</html>
