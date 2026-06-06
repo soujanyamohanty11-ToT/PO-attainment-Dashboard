@@ -1,1 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PO Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="sidepanel">
+    <h2 style="margin-bottom:30px; text-align:center;">
+        OBE Analytics
+    </h2>
+
+    <ul style="list-style:none;">
+        <a href="index.html" class="nav-btn">Dashboard</a>
+        <a href="attainment.html" class="nav-btn">PO Attainment</a>
+        <a href="analytics.html" class="nav-btn">Analytics</a>
+        <button>Logout</button>
+    </ul>
+</div>
+
+<div class="main">
+
+    <div class="header">
+
+        <h1>PO Attainment Visualization System</h1>
+
+        <div class="options">
+
+            <select id="semester">
+                <option>Semester 1</option>
+                <option>Semester 2</option>
+            </select>
+
+            <select id="subject">
+                <option>Applied Mathematics I</option>
+                <option>Applied Mathematics II</option>
+                <option>Engineering Physics</option>
+                <option>Engineering Chemistry</option>
+                <option>Applied Science for Computer Allied Subjects</option>
+                <option>Structured Programming Methodology</option>
+                <option>Object Oriented Programming Methodology</option>
+            </select>
+
+            <button onclick="updateChart()">Apply</button>
+
+        </div>
+
+    </div>
 
