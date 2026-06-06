@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Analytics</title>
+<title>PO Dashboard</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -56,3 +56,110 @@
 
     </div>
 
+
+    <div class="graph-panel">
+
+        <div class="graph-header">
+            <h2>PO Attainment Analysis</h2>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="poChart"></canvas>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+// Semester 1 Data
+const math1 = [82,76,91,69,74,80];
+const physics1 = [70,85,88,75,80,90];
+const spm1 = [88,92,90,84,95,91];
+
+// Semester 2 Data
+const math2 = [75,70,82,68,73,79];
+const chemistry2 = [81,78,90,74,80,86];
+const science2 = [86,82,91,77,84,89];
+const oopm2 = [90,94,92,85,96,93];
+
+let chart = new Chart(
+    document.getElementById("poChart"),
+    {
+        type: "bar",
+        data: {
+            labels: ["PO1","PO2","PO3","PO4","PO5","PO6"],
+            datasets: [{
+                label: "PO Attainment (%)",
+                data: math1,
+                backgroundColor: [
+                    "#3b82f6",
+                    "#10b981",
+                    "#f59e0b",
+                    "#ef4444",
+                    "#8b5cf6",
+                    "#06b6d4"
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    }
+);
+
+function updateChart(){
+
+    let sem = document.getElementById("semester").value;
+    let sub = document.getElementById("subject").value;
+
+    let data = [];
+
+    if(sem === "Semester 1"){
+
+        if(sub === "Applied Mathematics I")
+            data = math1;
+
+        else if(sub === "Engineering Physics")
+            data = physics1;
+
+        else if(sub === "Structured Programming Methodology")
+            data = spm1;
+    }
+
+    else if(sem === "Semester 2"){
+
+        if(sub === "Applied Mathematics II")
+            data = math2;
+
+        else if(sub === "Engineering Chemistry")
+            data = chemistry2;
+
+        else if(sub === "Applied Science for Computer Allied Subjects")
+            data = science2;
+
+        else if(sub === "Object Oriented Programming Methodology")
+            data = oopm2;
+    }
+
+    if(data.length === 0){
+        alert("Please select a subject that belongs to the chosen semester.");
+        return;
+    }
+
+    chart.data.datasets[0].data = data;
+    chart.update();
+}
+
+</script>
+
+</body>
+</html>
