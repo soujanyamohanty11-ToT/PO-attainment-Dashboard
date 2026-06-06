@@ -228,7 +228,15 @@ th{
     margin-bottom:8px;
     color:#9c0000;
 }
+.container{
+    display: flex;
+}
+
 .graph-panel{
-    width: 700px;
-    
+    width: 60%;
+}
+
+.update{
+    width: 40%;
+    margin-left: 20px;
 }

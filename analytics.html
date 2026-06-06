@@ -56,32 +56,80 @@
 
     </div>
 <hr>
-
+<div class="container">
     <div class="graph-panel">
 
-        <div class="graph-header">
-         </div>
-
-        <div class="chart-container">
+         <div class="chart-container">
             <canvas id="poChart"></canvas>
         </div>
 
     </div>
+    <div class="update">
+
+    <table border="1">
+        <tr>
+            <th>PO</th>
+            <th>Attainment (%)</th>
+            <th>Remark</th>
+        </tr>
+
+        <tr>
+            <td id="po1">PO1</td>
+            <td id="att1">82</td>
+            <td>Good</td>
+        </tr>
+
+        <tr>
+            <td id="po2">PO2</td>
+            <td id="att2">76</td>
+            <td>Good</td>
+        </tr>
+
+        <tr>
+            <td id="po3">PO3</td>
+            <td id="att3">91</td>
+            <td>Excellent</td>
+        </tr>
+
+        <tr>
+            <td id="po4">PO4</td>
+            <td id="att4">69</td>
+            <td>Average</td>
+        </tr>
+
+        <tr>
+            <td id="po5">PO5</td>
+            <td id="att5">74</td>
+            <td>Good</td>
+        </tr>
+
+    </table>
 
 </div>
-
+</div>
+</div>
 <script>
 
 // Semester 1 Data
-const math1 = [82,76,91,69,74,80];
-const physics1 = [70,85,88,75,80,90];
-const spm1 = [88,92,90,84,95,91];
+const math1 = [82,76,91,69,74];
+const math1POs = ["Matrices","Partial differentiation","PO3","PO4","Complex numbers"];
+const physics1 = [70,85,88,75,80];
+const physics1POs = ["Magnetism","PO4","PO6","PO7","Electrodynamics"];
+const spm1 = [88,92,90,84,95];
+const spm1POs = ["Introduction to C","Variables","Unions","Arrays and Structures","Memory allocations"];
 
 // Semester 2 Data
-const math2 = [75,70,82,68,73,79];
-const chemistry2 = [81,78,90,74,80,86];
-const science2 = [86,82,91,77,84,89];
-const oopm2 = [90,94,92,85,96,93];
+const math2 = [75,70,82,68,73];
+const math2POs = ["Integration","Differential Equations","Series","Vectors","Transforms"];
+
+const chemistry2 = [81,78,90,74,80];
+const chemistry2POs = ["Operating System","Networking","Database","Cloud","Cyber Security"];
+
+const science2 = [86,82,91,77,84];
+const science2POs = ["Transistors and diodes","Wave equations","Corrosion","Batteries","Semiconductor Matrials"];
+
+const oopm2 = [90,94,92,85,96];
+const oopm2POs = ["Classes","Objects","Inheritance","Polymorphism","Exception Handling"];
 
 let chart = new Chart(
     document.getElementById("poChart"),
@@ -121,39 +169,69 @@ function updateChart(){
     let sub = document.getElementById("subject").value;
 
     let data = [];
+    let poNames = [];
 
     if(sem === "Semester 1"){
 
-        if(sub === "Applied Mathematics I")
+        if(sub === "Applied Mathematics I"){
             data = math1;
+            poNames = math1POs;
+        }
 
-        else if(sub === "Engineering Physics")
+        else if(sub === "Engineering Physics"){
             data = physics1;
+            poNames = physics1POs;
+        }
 
-        else if(sub === "Structured Programming Methodology")
+        else if(sub === "Structured Programming Methodology"){
             data = spm1;
+            poNames = spm1POs;
+        }
+
     }
 
     else if(sem === "Semester 2"){
 
-        if(sub === "Applied Mathematics II")
+        if(sub === "Applied Mathematics II"){
             data = math2;
+            poNames = math2POs;
+        }
 
-        else if(sub === "Engineering Chemistry")
+        else if(sub === "Engineering Chemistry"){
             data = chemistry2;
+            poNames = chemistry2POs;
+        }
 
-        else if(sub === "Applied Science for Computer Allied Subjects")
+        else if(sub === "Applied Science for Computer Allied Subjects"){
             data = science2;
+            poNames = science2POs;
+        }
 
-        else if(sub === "Object Oriented Programming Methodology")
+        else if(sub === "Object Oriented Programming Methodology"){
             data = oopm2;
+            poNames = oopm2POs;
+        }
     }
 
     if(data.length === 0){
-        alert("Please select a subject that belongs to the chosen semester.");
+        alert("Please select a subject from the chosen semester");
         return;
     }
 
+    // update table
+    document.getElementById("po1").innerHTML = poNames[0];
+    document.getElementById("po2").innerHTML = poNames[1];
+    document.getElementById("po3").innerHTML = poNames[2];
+    document.getElementById("po4").innerHTML = poNames[3];
+    document.getElementById("po5").innerHTML = poNames[4];
+
+    document.getElementById("att1").innerHTML = data[0];
+    document.getElementById("att2").innerHTML = data[1];
+    document.getElementById("att3").innerHTML = data[2];
+    document.getElementById("att4").innerHTML = data[3];
+    document.getElementById("att5").innerHTML = data[4];
+
+    chart.data.labels = poNames;
     chart.data.datasets[0].data = data;
     chart.update();
 }
