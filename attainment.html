@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -42,8 +43,12 @@
 
             <select id="subject">
                 <option>Applied Mathematics I</option>
+                <option>Applied Mathematics II</option>
                 <option>Engineering Physics</option>
+                <option>Engineering Chemistry</option>
+                <option>Applied Science for Computer Allied Subjects</option>
                 <option>Structured Programming Methodology</option>
+                <option>Object Oriented Programming Methodology</option>
             </select>
 
             <button onclick="updateChart()">Apply</button>
@@ -76,24 +81,24 @@
 
             <div class="report-card">
                 <h3>Average Attainment</h3>
-                <p>82%</p>
+                <p id="avg">82%</p>
             </div>
 
             <div class="report-card">
                 <h3>Highest PO</h3>
-                <p>PO3 (91%)</p>
+                <p id="highest">PO3 (91%)</p>
             </div>
 
             <div class="report-card">
                 <h3>Weakest PO</h3>
-                <p>PO4 (69%)</p>
+                <p id="lowest">PO4 (69%)</p>
             </div>
 
             <div class="report-card">
                 <h3>Remarks</h3>
-                <p>
+                <p id="remarks">
                     Overall attainment is satisfactory.
-                    Focus on improving PO4 outcomes.
+                    Focus on improving weaker outcomes.
                 </p>
             </div>
 
@@ -105,13 +110,16 @@
 
 <script>
 
+// Semester 1
 const math1 = [82,76,91,69,74,80];
 const physics1 = [70,85,88,75,80,90];
 const spm1 = [88,92,90,84,95,91];
 
+// Semester 2
 const math2 = [75,70,82,68,73,79];
-const physics2 = [81,78,90,74,80,86];
-const spm2 = [90,93,89,84,95,91];
+const chemistry2 = [81,78,90,74,80,86];
+const science2 = [86,82,91,77,84,89];
+const oopm2 = [90,94,92,85,96,93];
 
 let chart = new Chart(
     document.getElementById("poChart"),
@@ -131,37 +139,86 @@ let chart = new Chart(
     }
 );
 
+function updateReport(data){
+
+    let max = Math.max(...data);
+    let min = Math.min(...data);
+
+    let maxIndex = data.indexOf(max) + 1;
+    let minIndex = data.indexOf(min) + 1;
+
+    let avg =
+        data.reduce((sum,val)=>sum+val,0) / data.length;
+
+    document.getElementById("avg").innerHTML =
+        avg.toFixed(1) + "%";
+
+    document.getElementById("highest").innerHTML =
+        `PO${maxIndex} (${max}%)`;
+
+    document.getElementById("lowest").innerHTML =
+        `PO${minIndex} (${min}%)`;
+
+    if(avg >= 85){
+        document.getElementById("remarks").innerHTML =
+        "Excellent attainment achieved across most Program Outcomes.";
+    }
+    else if(avg >= 75){
+        document.getElementById("remarks").innerHTML =
+        "Overall attainment is satisfactory. Focus on weaker outcomes.";
+    }
+    else{
+        document.getElementById("remarks").innerHTML =
+        "Improvement required in multiple Program Outcomes.";
+    }
+}
+
 function updateChart(){
 
     let sem = document.getElementById("semester").value;
     let sub = document.getElementById("subject").value;
 
-    if(sem=="Semester 1" && sub=="Applied Mathematics I"){
-        chart.data.datasets[0].data = math1;
+    let data = [];
+
+    if(sem === "Semester 1"){
+
+        if(sub === "Applied Mathematics I")
+            data = math1;
+
+        else if(sub === "Engineering Physics")
+            data = physics1;
+
+        else if(sub === "Structured Programming Methodology")
+            data = spm1;
     }
 
-    if(sem=="Semester 1" && sub=="Engineering Physics"){
-        chart.data.datasets[0].data = physics1;
+    else if(sem === "Semester 2"){
+
+        if(sub === "Applied Mathematics II")
+            data = math2;
+
+        else if(sub === "Engineering Chemistry")
+            data = chemistry2;
+
+        else if(sub === "Applied Science for Computer Allied Subjects")
+            data = science2;
+
+        else if(sub === "Object Oriented Programming Methodology")
+            data = oopm2;
     }
 
-    if(sem=="Semester 1" && sub=="Structured Programming Methodology"){
-        chart.data.datasets[0].data = spm1;
+    if(data.length === 0){
+        alert("Please select a subject that belongs to the chosen semester.");
+        return;
     }
 
-    if(sem=="Semester 2" && sub=="Applied Mathematics I"){
-        chart.data.datasets[0].data = math2;
-    }
+    chart.data.datasets[0].data = data;
 
-    if(sem=="Semester 2" && sub=="Engineering Physics"){
-        chart.data.datasets[0].data = physics2;
-    }
-
-    if(sem=="Semester 2" && sub=="Structured Programming Methodology"){
-        chart.data.datasets[0].data = spm2;
-    }
+    updateReport(data);
 
     chart.update();
 }
+
 function changeChartType(){
 
     let type = document.getElementById("chartType").value;
@@ -188,6 +245,9 @@ function changeChartType(){
         }
     );
 }
+
+updateReport(math1);
+
 </script>
 
 </body>
