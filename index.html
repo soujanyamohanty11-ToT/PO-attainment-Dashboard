@@ -4,6 +4,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Home</title>
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
   <link rel="stylesheet" href="style.css">
 
   <!-- Chart.js library for graphs (can make charts using javascript) -->
@@ -17,12 +20,15 @@
   OBE Analytics
 </h2>
     <ul style="list-style:none;">
-      <a href="index.html" class="nav-btn">Dashboard</a>
-      <a href="attainment.html" class="nav-btn">PO Attainment</a>
-      <a href="analytics.html" class="nav-btn">Analytics</a>
-      <button>Logout</button>
+      <a href="index.html" class="nav-btn"> <i class="fa-solid fa-table-columns"></i>Dashboard</a>
+      <a href="attainment.html" class="nav-btn"><i class="fa-solid fa-chart-column"></i>PO Attainment</a>
+      <a href="analytics.html" class="nav-btn"><i class="fa-solid fa-chart-line"></i>Analytics</a>
+      <button class="nav-btn">
+         <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          Logout
+      </button>
     </ul>
-  </div>
+  </div> 
 
    <div class="main">
     <div class="header">
@@ -44,22 +50,35 @@
      <div class="cards">
 
       <div class="card">
-        <h3>Total Students</h3>
+        <h3>
+          <i class="fa-solid fa-users"></i>
+          Total Students
+        </h3>
         <p>956</p>
       </div>
 
       <div class="card">
-        <h3>Average PO Attainment</h3>
+        <h3>
+           <i class="fa-solid fa-chart-pie"></i>
+
+          Average PO Attainment
+        </h3>
         <p>82%</p>
       </div>
 
       <div class="card">
-        <h3>Highest PO</h3>
+        <h3>
+          <i class="fa-solid fa-trophy"></i>
+          Highest PO
+        </h3>
         <p>Engineering Physics</p>
       </div>
 
       <div class="card">
-        <h3>Weakest PO</h3>
+        <h3>
+         <i class="fa-solid fa-arrow-trend-down"></i>
+          Weakest PO
+        </h3>
         <p>Applied Mathematics</p>
       </div>
      

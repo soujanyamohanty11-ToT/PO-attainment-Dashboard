@@ -13,7 +13,7 @@ body{
 
 .sidepanel{
     width:190px;                 
-    height:130vh;
+    height:145vh;
     background:rgb(156, 0, 0);
     color:white;
     padding:20px 12px;
@@ -340,3 +340,71 @@ th{
     border:1px solid #0000006e;
   
 }
+
+
+.nav-btn i{
+
+    width:25px;
+    margin-right:10px;
+    font-size:16px;
+
+}
+
+.card h3 i{
+
+    color:midnightblue;
+    margin-right:8px;
+    font-size:18px;
+
+}
+
+.logout-btn{
+
+    display:flex;
+
+    align-items:center;
+
+    width:100%;
+
+    padding:12px;
+
+    margin-bottom:10px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:transparent;
+
+    color:white;
+
+    text-decoration:none;
+
+    text-align:left;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+}
+
+.logout-btn i{
+
+    width:24px;
+
+    margin-right:18px;
+
+    text-align:center;
+
+    font-size:16px;
+
+}
+
+.logout-btn:hover{
+
+    background:#c53a3a;
+
+}
+
