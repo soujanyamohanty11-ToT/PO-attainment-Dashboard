@@ -9,6 +9,7 @@
 
   <link rel="stylesheet" href="style.css">
 
+  
   <!-- Chart.js library for graphs (can make charts using javascript) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -16,8 +17,9 @@
 
  <body>
  <div class="sidepanel">
-    <h2 style="margin-bottom:30px; text-align:center;">
-  OBE Analytics
+    <h2 class="logo">
+      <i class="fa-solid fa-graduation-cap"></i>
+  <span>OBE Analytics</span>
 </h2>
     <ul style="list-style:none;">
       <a href="index.html" class="nav-btn"> <i class="fa-solid fa-table-columns"></i>Dashboard</a>
@@ -36,13 +38,26 @@
 
       <div class="options">
         <select>
+          <option>Computer Science and Business Systems</option>
+          <option>Computer Engineering</option>
+          <option>AIDS</option>
+          <option>IT</option>
+          <option>EXCP</option>
+          <option>ETRX</option>
+          <option>CCE</option>
+          <option>Mechanical</option>
+          <option>EXTC</option>
+          <option>Robotics and Aritificial Engineering</option>
+          <option>Electronics Engineering (VLSI)</option>
+        </select>
+        <select id="semester">
           <option>Semester 1</option>
           <option>Semester 2</option>
         </select>
-        <select>
+        <select id="subject">
         <option>Applied Mathematics I</option>
         <option>Engineering Physics</option>
-        <option>Structured Programming Methedology</option>
+        <option>Structured Programming Methodology</option>
       </select>
         <button onclick="updateChart()">Apply</button>
       </div>
@@ -63,7 +78,7 @@
 
           Average PO Attainment
         </h3>
-        <p>82%</p>
+        <p id="averagePO">82%</p>
       </div>
 
       <div class="card">
@@ -71,7 +86,7 @@
           <i class="fa-solid fa-trophy"></i>
           Highest PO
         </h3>
-        <p>Engineering Physics</p>
+        <p id="highestPO">Engineering Physics</p>
       </div>
 
       <div class="card">
@@ -79,7 +94,7 @@
          <i class="fa-solid fa-arrow-trend-down"></i>
           Weakest PO
         </h3>
-        <p>Applied Mathematics</p>
+        <p id="weakestPO">Applied Mathematics</p>
       </div>
      
     </div>
@@ -136,6 +151,74 @@
   </div>
 
   <script src="script.js"></script>
+
+
+
+ <script>
+
+  
+
+
+
+window.onload = function(){
+
+    let avg = localStorage.getItem("averagePO");
+
+    let high = localStorage.getItem("highestPO");
+
+    let low = localStorage.getItem("weakestPO");
+
+    if(avg){
+
+        document.getElementById("averagePO").innerHTML = avg;
+
+    }
+
+    if(high){
+
+        document.getElementById("highestPO").innerHTML = high;
+
+    }
+
+    if(low){
+
+        document.getElementById("weakestPO").innerHTML = low;
+
+    }
+
+}
+
+
+window.onload = function(){
+
+    let sem = localStorage.getItem("selectedSemester");
+    let sub = localStorage.getItem("selectedSubject");
+
+    if(sem){
+        document.getElementById("semester").value = sem;
+    }
+
+    if(sub){
+        document.getElementById("subject").value = sub;
+    }
+
+    updateChart();
+
+}
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
 
 </body>
 </html>

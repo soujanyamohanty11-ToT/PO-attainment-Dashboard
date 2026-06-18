@@ -408,3 +408,22 @@ th{
 
 }
 
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:white;
+    font-size:20px;
+    font-weight:700;
+    margin-bottom:40px;
+}
+
+.logo i{
+    font-size:22px;
+}
+
+.logo span{
+    position:relative;
+    top:3.40px;
+}
+

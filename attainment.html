@@ -18,8 +18,9 @@
 <body>
 
 <div class="sidepanel">
-    <h2 style="margin-bottom:30px; text-align:center;">
-        OBE Analytics
+    <h2 class="logo">
+         <i class="fa-solid fa-graduation-cap"></i>
+        <span>OBE Analytics</span>
     </h2>
 
     <ul style="list-style:none;">
@@ -40,6 +41,20 @@
         <h1>PO Attainment Visualization System</h1>
 
         <div class="options">
+
+            <select>
+          <option>Computer Science and Business Systems</option>
+          <option>Computer Engineering</option>
+          <option>AIDS</option>
+          <option>IT</option>
+          <option>EXCP</option>
+          <option>ETRX</option>
+          <option>CCE</option>
+          <option>Mechanical</option>
+          <option>EXTC</option>
+          <option>Robotics and Aritificial Engineering</option>
+          <option>Electronics Engineering (VLSI)</option>
+        </select>
 
             <select id="semester">
                 <option>Semester 1</option>
@@ -86,17 +101,17 @@
 
             <div class="report-card">
                 <h3>Average Attainment</h3>
-                <p id="avg">82%</p>
+                <p id="averagePO">82%</p>
             </div>
 
             <div class="report-card">
                 <h3>Highest PO</h3>
-                <p id="highest">PO3 (91%)</p>
+                <p id="highestPO">PO3 (91%)</p>
             </div>
 
             <div class="report-card">
                 <h3>Weakest PO</h3>
-                <p id="lowest">PO4 (69%)</p>
+                <p id="weakestPO">PO4 (69%)</p>
             </div>
 
             <div class="report-card">
@@ -146,6 +161,8 @@ let chart = new Chart(
 
 function updateReport(data){
 
+ 
+
     let max = Math.max(...data);
     let min = Math.min(...data);
 
@@ -155,13 +172,23 @@ function updateReport(data){
     let avg =
         data.reduce((sum,val)=>sum+val,0) / data.length;
 
-    document.getElementById("avg").innerHTML =
+
+    // Save in browser
+
+localStorage.setItem("averagePO", avg.toFixed(1) + "%");
+localStorage.setItem("highestPO", "PO" + maxIndex);
+localStorage.setItem("weakestPO", "PO" + minIndex);
+
+
+
+
+    document.getElementById("averagePO").innerHTML =
         avg.toFixed(1) + "%";
 
-    document.getElementById("highest").innerHTML =
+    document.getElementById("highestPO").innerHTML =
         `PO${maxIndex} (${max}%)`;
 
-    document.getElementById("lowest").innerHTML =
+    document.getElementById("weakestPO").innerHTML =
         `PO${minIndex} (${min}%)`;
 
     if(avg >= 85){
@@ -182,8 +209,8 @@ function updateChart(){
 
     let sem = document.getElementById("semester").value;
     let sub = document.getElementById("subject").value;
-
-    let data = [];
+   
+    let data = []; 
 
     if(sem === "Semester 1"){
 
@@ -216,6 +243,14 @@ function updateChart(){
         alert("Please select a subject that belongs to the chosen semester.");
         return;
     }
+ 
+    console.log("Semester =", sem);
+    console.log("Subject =", sub);
+    console.log("Data =", data);
+
+
+localStorage.setItem("dashboardData", JSON.stringify(data));
+
 
     chart.data.datasets[0].data = data;
 
@@ -249,9 +284,35 @@ function changeChartType(){
             }
         }
     );
+
+
 }
 
 updateReport(math1);
+
+window.onload = function(){
+
+    let sem = localStorage.getItem("selectedSemester");
+    let sub = localStorage.getItem("selectedSubject");
+
+    if(sem){
+        document.getElementById("semester").value = sem;
+    }
+
+    if(sub){
+        document.getElementById("subject").value = sub;
+    }
+
+    updateChart();
+
+}
+
+
+
+
+
+
+
 
 </script>
 

@@ -18,8 +18,9 @@
 <body>
 
 <div class="sidepanel">
-    <h2 style="margin-bottom:30px; text-align:center;">
-        OBE Analytics
+    <h2 class="logo">
+         <i class="fa-solid fa-graduation-cap"></i>
+        <span>OBE Analytics</span>
     </h2>
 
     <ul style="list-style:none;">
@@ -40,6 +41,20 @@
         <h1>PO Attainment Visualization System</h1>
 
         <div class="options">
+
+            <select>
+          <option>Computer Science and Business Systems</option>
+          <option>Computer Engineering</option>
+          <option>AIDS</option>
+          <option>IT</option>
+          <option>EXCP</option>
+          <option>ETRX</option>
+          <option>CCE</option>
+          <option>Mechanical</option>
+          <option>EXTC</option>
+          <option>Robotics and Aritificial Engineering</option>
+          <option>Electronics Engineering (VLSI)</option>
+        </select>
 
             <select id="semester">
                 <option>Semester 1</option>
@@ -154,9 +169,9 @@
 
 // Semester 1 Data
 const math1 = [82,76,91,69,74];
-const math1POs = ["Matrices","Partial differentiation","PO3","PO4","Complex numbers"];
+const math1POs = ["Matrices","Partial differentiation","Homogeneous Functions","Linear Differential Equation","Complex numbers"];
 const physics1 = [70,85,88,75,80];
-const physics1POs = ["Magnetism","PO4","PO6","PO7","Electrodynamics"];
+const physics1POs = ["Magnetism","Wave Optics","Photonics","Quantum-Mechanics","Electrodynamics"];
 const spm1 = [88,92,90,84,95];
 const spm1POs = ["Introduction to C","Variables","Unions","Arrays and Structures","Memory allocations"];
 
@@ -206,6 +221,7 @@ let chart = new Chart(
 );
 
 function updateChart(){
+
 
     let sem = document.getElementById("semester").value;
     let sub = document.getElementById("subject").value;
@@ -273,10 +289,82 @@ function updateChart(){
     document.getElementById("att4").innerHTML = data[3];
     document.getElementById("att5").innerHTML = data[4];
 
+    // Calculate Average
+let sum = 0;
+
+for(let i = 0; i < data.length; i++){
+    sum += data[i];
+}
+
+let average = (sum / data.length).toFixed(1);
+
+// Find Highest PO
+let highestIndex = 0;
+
+for(let i = 1; i < data.length; i++){
+
+    if(data[i] > data[highestIndex]){
+        highestIndex = i;
+    }
+
+}
+
+// Find Weakest PO
+let weakestIndex = 0;
+
+for(let i = 1; i < data.length; i++){
+
+    if(data[i] < data[weakestIndex]){
+        weakestIndex = i;
+    }
+
+}
+
+// Save for Dashboard
+localStorage.setItem("averagePO", average + "%");
+localStorage.setItem("highestPO", poNames[highestIndex]);
+localStorage.setItem("weakestPO", poNames[weakestIndex]);
+
+
+
+
+
+
+ localStorage.setItem("dashboardData", JSON.stringify(data));
+
+
+
+
+
+
+
+
     chart.data.labels = poNames;
     chart.data.datasets[0].data = data;
     chart.update();
 }
+
+window.onload = function(){
+
+    let sem = localStorage.getItem("selectedSemester");
+    let sub = localStorage.getItem("selectedSubject");
+
+    if(sem){
+        document.getElementById("semester").value = sem;
+    }
+
+    if(sub){
+        document.getElementById("subject").value = sub;
+    }
+
+    updateChart();
+
+}
+
+
+
+
+
 
 </script>
 
