@@ -133,23 +133,98 @@
 // Semester 1
 const math1 = [82,76,91,69,74,80];
 const physics1 = [70,85,88,75,80,90];
-const spm1 = [88,92,90,84,95,91];
+const spm1 = [88,92,90,84,95];
 
 // Semester 2
-const math2 = [75,70,82,68,73,79];
+const math2 = [75,70,82,68,79];
 const chemistry2 = [81,78,90,74,80,86];
-const science2 = [86,82,91,77,84,89];
-const oopm2 = [90,94,92,85,96,93];
+const science2 = [86,82,91,84,89];
+const oopm2 = [90,94,92,85,96];
+
+
+
+
+const math1POs = [
+        "Matrices",
+        "Partial Differentiation",
+        "Homogeneous Functions",
+        "Linear Differential Equations",
+        "Probability",
+        "Complex Numbers"
+    ];
+
+
+    const physics1POs = [
+        "Magnetism",
+        "Wave Optics",
+        "Photonics",
+        "Quantum-Mechanics",
+        "Electrodynamics",
+        "Photonics"
+        
+    ];
+
+
+    const spm1POs = [
+        "Introduction to C",
+        "Variables",
+        "Unions",
+        "Arrays and Structures",
+        "Memory Allocations"
+        
+    ];
+
+    const math2POs = [
+        "Integrals",
+        "DE",
+        "Series",
+        "Vectors",
+        "Transforms"
+        
+    ];
+
+  
+        const chemistry2POs = [
+        "Water Treatment",
+        "Green Chemistry",
+        "Organic Reactions",
+        "Electrochemistry",
+        "Sensors"
+    ];
+    
+
+    const science2POs =[
+        "Transistors",
+        "Wave Equations",
+        "Corrosion",
+        "Batteries",
+        "Semiconductor"
+    ];
+
+    const oopm2POs =[
+        "Classes",
+        "Objects",
+        "Inheritance",
+        "Polymorphism",
+        "Exception Handling"
+    ];
+
+    let currentPONames = math1POs;
+
+    
+
 
 let chart = new Chart(
     document.getElementById("poChart"),
     {
         type: "bar",
         data: {
-            labels: ["PO1","PO2","PO3","PO4","PO5","PO6"],
+            labels: currentPONames,
             datasets: [{
                 label: "PO Attainment (%)",
-                data: math1
+                data: math1,
+                backgroundColor: "#74b9e7",
+                borderColor: "#74b9e7"
             }]
         },
         options: {
@@ -176,9 +251,15 @@ function updateReport(data){
     // Save in browser
 
 localStorage.setItem("averagePO", avg.toFixed(1) + "%");
-localStorage.setItem("highestPO", "PO" + maxIndex);
-localStorage.setItem("weakestPO", "PO" + minIndex);
+localStorage.setItem(
+    "highestPO",
+    currentPONames[maxIndex - 1] + " (" + max + "%)"
+);
 
+localStorage.setItem(
+    "weakestPO",
+    currentPONames[minIndex - 1] + " (" + min + "%)"
+);
 
 
 
@@ -186,10 +267,10 @@ localStorage.setItem("weakestPO", "PO" + minIndex);
         avg.toFixed(1) + "%";
 
     document.getElementById("highestPO").innerHTML =
-        `PO${maxIndex} (${max}%)`;
+    `${currentPONames[maxIndex - 1]} (${max}%)`;
 
-    document.getElementById("weakestPO").innerHTML =
-        `PO${minIndex} (${min}%)`;
+document.getElementById("weakestPO").innerHTML =
+    `${currentPONames[minIndex - 1]} (${min}%)`;
 
     if(avg >= 85){
         document.getElementById("remarks").innerHTML =
@@ -214,29 +295,44 @@ function updateChart(){
 
     if(sem === "Semester 1"){
 
-        if(sub === "Applied Mathematics I")
+        if(sub === "Applied Mathematics I"){
             data = math1;
+            currentPONames = math1POs;
+        }
 
-        else if(sub === "Engineering Physics")
+        else if(sub === "Engineering Physics"){
             data = physics1;
+            currentPONames = physics1POs;
+        }
 
-        else if(sub === "Structured Programming Methodology")
+        else if(sub === "Structured Programming Methodology"){
             data = spm1;
+            currentPONames = spm1POs;
+        }
+            
     }
 
     else if(sem === "Semester 2"){
 
-        if(sub === "Applied Mathematics II")
+        if(sub === "Applied Mathematics II"){
             data = math2;
+            currentPONames = math2POs;
+        }
 
-        else if(sub === "Engineering Chemistry")
-            data = chemistry2;
+        else if(sub === "Engineering Chemistry"){
+            data = chemistry2; 
+            currentPONames = chemistry2POs;
+        }
 
-        else if(sub === "Applied Science for Computer Allied Subjects")
+        else if(sub === "Applied Science for Computer Allied Subjects"){
             data = science2;
+            currentPONames = science2POs;
+        }
 
-        else if(sub === "Object Oriented Programming Methodology")
+        else if(sub === "Object Oriented Programming Methodology"){
             data = oopm2;
+            currentPONames = oopm2POs;
+        }
     }
 
     if(data.length === 0){
@@ -251,12 +347,36 @@ function updateChart(){
 
 localStorage.setItem("dashboardData", JSON.stringify(data));
 
+    localStorage.setItem(
+    "dashboardLabels",
+    JSON.stringify(currentPONames)
+);
+  
 
-    chart.data.datasets[0].data = data;
 
-    updateReport(data);
+    chart.destroy();
 
-    chart.update();
+chart = new Chart(
+    document.getElementById("poChart"),
+    {
+        type: document.getElementById("chartType").value,
+        data: {
+            labels: currentPONames,
+            datasets: [{
+                label: "PO Attainment (%)",
+                data: data,
+                backgroundColor: "#74b9e7",
+                borderColor: "#74b9e7"
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    }
+);
+
+updateReport(data);
 }
 
 function changeChartType(){
@@ -268,16 +388,18 @@ function changeChartType(){
     chart.destroy();
 
     chart = new Chart(
-        document.getElementById("poChart"),
-        {
-            type:type,
-            data:{
-                labels:["PO1","PO2","PO3","PO4","PO5","PO6"],
-                datasets:[{
-                    label:"PO Attainment (%)",
-                    data:currentData
-                }]
-            },
+    document.getElementById("poChart"),
+    {
+        type:type,
+        data:{
+            labels: currentPONames,
+            datasets:[{
+                label:"PO Attainment (%)",
+                data:currentData,
+                backgroundColor:"#74b9e7",
+                borderColor:"#74b9e7"
+            }]
+        },
             options:{
                 responsive:true,
                 maintainAspectRatio:false

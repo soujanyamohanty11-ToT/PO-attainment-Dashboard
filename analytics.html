@@ -162,14 +162,26 @@
 
 
 </div>
+
+
+
+
+</div>
+
+</div>
+<div class="recommendation-section">
+    <h2>Recommendations</h2>
+
+    <div id="recommendationList"></div>
 </div>
 </div>
-</div>
+
+
 <script>
 
 // Semester 1 Data
 const math1 = [82,76,91,69,74];
-const math1POs = ["Matrices","Partial differentiation","Homogeneous Functions","Linear Differential Equation","Complex numbers"];
+const math1POs = ["Matrices","Partial Diff","Homo Fun","Linear DE","Complex Num"];
 const physics1 = [70,85,88,75,80];
 const physics1POs = ["Magnetism","Wave Optics","Photonics","Quantum-Mechanics","Electrodynamics"];
 const spm1 = [88,92,90,84,95];
@@ -177,13 +189,13 @@ const spm1POs = ["Introduction to C","Variables","Unions","Arrays and Structures
 
 // Semester 2 Data
 const math2 = [75,70,82,68,73];
-const math2POs = ["Integration","Differential Equations","Series","Vectors","Transforms"];
+const math2POs = ["Integrals","DE","Series","Vectors","Transforms"];
 
 const chemistry2 = [81,78,90,74,80];
-const chemistry2POs = ["Operating System","Networking","Database","Cloud","Cyber Security"];
+const chemistry2POs = ["Water Treatment","Green Chemistry","Organic Reactions","Electrochemistry","Sensors"];
 
 const science2 = [86,82,91,77,84];
-const science2POs = ["Transistors and diodes","Wave equations","Corrosion","Batteries","Semiconductor Matrials"];
+const science2POs = ["Transistors","Wave equations","Corrosion","Batteries","Semiconductors"];
 
 const oopm2 = [90,94,92,85,96];
 const oopm2POs = ["Classes","Objects","Inheritance","Polymorphism","Exception Handling"];
@@ -342,7 +354,118 @@ localStorage.setItem("weakestPO", poNames[weakestIndex]);
     chart.data.labels = poNames;
     chart.data.datasets[0].data = data;
     chart.update();
+    updateRecommendations();
 }
+
+
+function updateRecommendations(){
+
+    let sem = document.getElementById("semester").value;
+    let sub = document.getElementById("subject").value;
+
+    let data = [];
+    let poNames = [];
+
+    if(sem === "Semester 1"){
+
+        if(sub === "Applied Mathematics I"){
+            data = math1;
+            poNames = math1POs;
+        }
+
+        else if(sub === "Engineering Physics"){
+            data = physics1;
+            poNames = physics1POs;
+        }
+
+        else if(sub === "Structured Programming Methodology"){
+            data = spm1;
+            poNames = spm1POs;
+        }
+
+    }
+
+    else{
+
+        if(sub === "Applied Mathematics II"){
+            data = math2;
+            poNames = math2POs;
+        }
+
+        else if(sub === "Engineering Chemistry"){
+            data = chemistry2;
+            poNames = chemistry2POs;
+        }
+
+        else if(sub === "Applied Science for Computer Allied Subjects"){
+            data = science2;
+            poNames = science2POs;
+        }
+
+        else if(sub === "Object Oriented Programming Methodology"){
+            data = oopm2;
+            poNames = oopm2POs;
+        }
+    }
+
+    let recommendationList =
+    document.getElementById("recommendationList");
+
+    recommendationList.innerHTML = "";
+
+    // Lowest PO
+    let minValue = Math.min(...data);
+    let minIndex = data.indexOf(minValue);
+
+    recommendationList.innerHTML += `
+    <div class="recommend-card warning">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div>
+            <strong>${poNames[minIndex]} attainment is below target (${minValue}%).</strong>
+            <p>Focus on improving learning activities mapped to this outcome.</p>
+        </div>
+    </div>
+    `;
+
+    // Highest PO
+    let maxValue = Math.max(...data);
+    let maxIndex = data.indexOf(maxValue);
+
+    recommendationList.innerHTML += `
+    <div class="recommend-card success">
+        <i class="fa-solid fa-circle-check"></i>
+        <div>
+            <strong>${poNames[maxIndex]} shows excellent attainment.</strong>
+            <p>Maintain current teaching-learning strategies.</p>
+        </div>
+    </div>
+    `;
+
+    // Middle PO
+    let middleIndex = Math.floor(data.length/2);
+
+    recommendationList.innerHTML += `
+    <div class="recommend-card info">
+        <i class="fa-solid fa-circle-info"></i>
+        <div>
+            <strong>Consider strengthening ${poNames[middleIndex]}.</strong>
+            <p>Introduce more practical and application-based activities.</p>
+        </div>
+    </div>
+    `;
+
+    // Overall
+    recommendationList.innerHTML += `
+    <div class="recommend-card overall">
+        <i class="fa-solid fa-chart-line"></i>
+        <div>
+            <strong>Overall attainment is satisfactory.</strong>
+            <p>Continue monitoring attainment levels across all POs.</p>
+        </div>
+    </div>
+    `;
+}
+
 
 window.onload = function(){
 
@@ -358,8 +481,12 @@ window.onload = function(){
     }
 
     updateChart();
+    updateRecommendations();
 
 }
+
+
+
 
 
 

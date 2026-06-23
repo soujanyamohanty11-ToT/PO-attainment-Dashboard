@@ -6,14 +6,16 @@
 body{
     display:flex;
     background:#ebedef;
-    transform:scale(0.92);      
+    margin:0;
+    zoom:0.90;
+    /* transform:scale(0.92);      
     transform-origin: top left;
-    width:108.7%;
+    width:108.7%; */
 }
 
 .sidepanel{
     width:190px;                 
-    height:145vh;
+    height:180vh;
     background:rgb(156, 0, 0);
     color:white;
     padding:20px 12px;
@@ -427,3 +429,66 @@ th{
     top:3.40px;
 }
 
+.recommendation-section{
+    background:white;
+    padding:25px;
+    border-radius:15px;
+    margin-top:30px;
+}
+
+.recommend-card{
+    display:flex;
+    align-items:flex-start;
+    gap:15px;
+    padding:15px;
+    margin-bottom:12px;
+    border-radius:10px;
+    border:1px solid #eee;
+}
+
+.recommend-card i{
+    font-size:22px;
+    margin-top:3px;
+}
+
+.recommend-card strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.recommend-card p{
+    margin:0;
+    color:#555;
+}
+
+.warning{
+    background:#fff5f5;
+}
+
+.warning i{
+    color:#ef4444;
+}
+
+.success{
+    background:#f0fdf4;
+}
+
+.success i{
+    color:#22c55e;
+}
+
+.info{
+    background:#eff6ff;
+}
+
+.info i{
+    color:#2563eb;
+}
+
+.overall{
+    background:#f8fafc;
+}
+
+.overall i{
+    color:#0f766e;
+}
