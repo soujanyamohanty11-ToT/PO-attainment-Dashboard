@@ -9,13 +9,7 @@
 
   <link rel="stylesheet" href="style.css">
 
-  <script>
-
-if(localStorage.getItem("isLoggedIn") !== "true") {
-    window.location.href = "login.html";
-}
-
-</script>
+  
  
    
    
@@ -34,10 +28,7 @@ if(localStorage.getItem("isLoggedIn") !== "true") {
       <a href="index.html" class="nav-btn"> <i class="fa-solid fa-table-columns"></i>Dashboard</a>
       <a href="attainment.html" class="nav-btn"><i class="fa-solid fa-chart-column"></i>PO Attainment</a>
       <a href="analytics.html" class="nav-btn"><i class="fa-solid fa-chart-line"></i>Analytics</a>
-      <button class="nav-btn" onclick="logout()">
-    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-    Logout
-</button>
+      
     </ul>
   </div> 
 
@@ -157,18 +148,7 @@ if(localStorage.getItem("isLoggedIn") !== "true") {
   </div>
 
  
-<script>
 
-function logout() {
-
-    localStorage.removeItem("isLoggedIn");
-
-    window.location.href = "login.html";
-
-}
-
-</script>
-    
 
  
 
