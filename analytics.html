@@ -11,7 +11,9 @@
 
 <link rel="stylesheet" href="style.css">
 
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
 
 </head>
 
@@ -27,10 +29,10 @@
         <a href="index.html" class="nav-btn"><i class="fa-solid fa-table-columns"></i>Dashboard</a>
         <a href="attainment.html" class="nav-btn"><i class="fa-solid fa-chart-column"></i>PO Attainment</a>
         <a href="analytics.html" class="nav-btn"><i class="fa-solid fa-chart-line"></i>Analytics</a>
-        <button class="nav-btn">
-             <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            Logout
-        </button>
+        <button class="nav-btn" onclick="logout()">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    Logout
+</button>
     </ul>
 </div>
 
@@ -42,7 +44,7 @@
 
         <div class="options">
 
-            <select>
+            <select id="department" onchange="updateSubjectList()">
           <option>Computer Science and Business Systems</option>
           <option>Computer Engineering</option>
           <option>AIDS</option>
@@ -52,23 +54,17 @@
           <option>CCE</option>
           <option>Mechanical</option>
           <option>EXTC</option>
-          <option>Robotics and Aritificial Engineering</option>
+          <option>Robotics and Artificial Engineering</option>
           <option>Electronics Engineering (VLSI)</option>
         </select>
 
-            <select id="semester">
+            <select id="semester" onchange="updateSubjectList()">
                 <option>Semester 1</option>
                 <option>Semester 2</option>
             </select>
 
             <select id="subject">
-                <option>Applied Mathematics I</option>
-                <option>Applied Mathematics II</option>
-                <option>Engineering Physics</option>
-                <option>Engineering Chemistry</option>
-                <option>Applied Science for Computer Allied Subjects</option>
-                <option>Structured Programming Methodology</option>
-                <option>Object Oriented Programming Methodology</option>
+                
             </select>
 
             <button onclick="updateChart()">Apply</button>
@@ -92,37 +88,12 @@
             <th>PO</th>
             <th>Attainment (%)</th>
             <th>Remark</th>
+
+            <tbody id="poTableBody">
+    </tbody>
         </tr>
 
-        <tr>
-            <td id="po1">PO1</td>
-            <td id="att1">82</td>
-            <td>Good</td>
-        </tr>
-
-        <tr>
-            <td id="po2">PO2</td>
-            <td id="att2">76</td>
-            <td>Good</td>
-        </tr>
-
-        <tr>
-            <td id="po3">PO3</td>
-            <td id="att3">91</td>
-            <td>Excellent</td>
-        </tr>
-
-        <tr>
-            <td id="po4">PO4</td>
-            <td id="att4">69</td>
-            <td>Average</td>
-        </tr>
-
-        <tr>
-            <td id="po5">PO5</td>
-            <td id="att5">74</td>
-            <td>Good</td>
-        </tr>
+        
 
     </table>
     <br>
@@ -475,6 +446,8 @@ window.onload = function(){
     if(sem){
         document.getElementById("semester").value = sem;
     }
+
+    updateSubjectList();
 
     if(sub){
         document.getElementById("subject").value = sub;

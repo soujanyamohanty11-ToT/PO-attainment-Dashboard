@@ -11,7 +11,9 @@
 
 <link rel="stylesheet" href="style.css">
 
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
 
 </head>
 
@@ -27,10 +29,10 @@
         <a href="index.html" class="nav-btn"><i class="fa-solid fa-table-columns"></i>Dashboard</a>
         <a href="attainment.html" class="nav-btn"><i class="fa-solid fa-chart-column"></i>PO Attainment</a>
         <a href="analytics.html" class="nav-btn"><i class="fa-solid fa-chart-line"></i>Analytics</a>
-        <button class="nav-btn">
-             <i class="fa-solid fa-arrow-right-from-bracket"></i>
-            Logout
-        </button>
+        <button class="nav-btn" onclick="logout()">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    Logout
+</button>
     </ul>
 </div>
 
@@ -42,7 +44,7 @@
 
         <div class="options">
 
-            <select>
+            <select id="department" onchange="updateSubjectList()">
           <option>Computer Science and Business Systems</option>
           <option>Computer Engineering</option>
           <option>AIDS</option>
@@ -52,23 +54,17 @@
           <option>CCE</option>
           <option>Mechanical</option>
           <option>EXTC</option>
-          <option>Robotics and Aritificial Engineering</option>
+          <option>Robotics and Artificial Engineering</option>
           <option>Electronics Engineering (VLSI)</option>
         </select>
 
-            <select id="semester">
+            <select id="semester" onchange="updateSubjectList()">
                 <option>Semester 1</option>
                 <option>Semester 2</option>
             </select>
 
             <select id="subject">
-                <option>Applied Mathematics I</option>
-                <option>Applied Mathematics II</option>
-                <option>Engineering Physics</option>
-                <option>Engineering Chemistry</option>
-                <option>Applied Science for Computer Allied Subjects</option>
-                <option>Structured Programming Methodology</option>
-                <option>Object Oriented Programming Methodology</option>
+                
             </select>
 
             <button onclick="updateChart()">Apply</button>
@@ -84,7 +80,7 @@
             <div class="graph-header">
                 <h2>PO Attainment Analysis</h2>
 
-                <select id="chartType" onchange="changeChartType()">
+                <select id="chartType">
                     <option value="bar">Bar Chart</option>
                     <option value="line">Line Chart</option>
                     <option value="pie">Pie Chart</option>
@@ -130,99 +126,17 @@
 
 <script>
 
-// Semester 1
-const math1 = [82,76,91,69,74,80];
-const physics1 = [70,85,88,75,80,90];
-const spm1 = [88,92,90,84,95];
-
-// Semester 2
-const math2 = [75,70,82,68,79];
-const chemistry2 = [81,78,90,74,80,86];
-const science2 = [86,82,91,84,89];
-const oopm2 = [90,94,92,85,96];
-
-
-
-
-const math1POs = [
-        "Matrices",
-        "Partial Differentiation",
-        "Homogeneous Functions",
-        "Linear Differential Equations",
-        "Probability",
-        "Complex Numbers"
-    ];
-
-
-    const physics1POs = [
-        "Magnetism",
-        "Wave Optics",
-        "Photonics",
-        "Quantum-Mechanics",
-        "Electrodynamics",
-        "Photonics"
-        
-    ];
-
-
-    const spm1POs = [
-        "Introduction to C",
-        "Variables",
-        "Unions",
-        "Arrays and Structures",
-        "Memory Allocations"
-        
-    ];
-
-    const math2POs = [
-        "Integrals",
-        "DE",
-        "Series",
-        "Vectors",
-        "Transforms"
-        
-    ];
-
-  
-        const chemistry2POs = [
-        "Water Treatment",
-        "Green Chemistry",
-        "Organic Reactions",
-        "Electrochemistry",
-        "Sensors"
-    ];
-    
-
-    const science2POs =[
-        "Transistors",
-        "Wave Equations",
-        "Corrosion",
-        "Batteries",
-        "Semiconductor"
-    ];
-
-    const oopm2POs =[
-        "Classes",
-        "Objects",
-        "Inheritance",
-        "Polymorphism",
-        "Exception Handling"
-    ];
-
-    let currentPONames = math1POs;
-
-    
-
+let currentPONames = [];
 
 let chart = new Chart(
     document.getElementById("poChart"),
     {
         type: "bar",
         data: {
-            labels: currentPONames,
+            labels: [],
             datasets: [{
                 label: "PO Attainment (%)",
-                data: math1,
+                data: [],
                 backgroundColor: "#74b9e7",
                 borderColor: "#74b9e7"
             }]
@@ -234,204 +148,374 @@ let chart = new Chart(
     }
 );
 
-function updateReport(data){
 
- 
+function updateSubjectList(){
 
-    let max = Math.max(...data);
-    let min = Math.min(...data);
+    let department =
+        document.getElementById("department").value;
 
-    let maxIndex = data.indexOf(max) + 1;
-    let minIndex = data.indexOf(min) + 1;
+    let semester =
+        document.getElementById("semester").value;
 
-    let avg =
-        data.reduce((sum,val)=>sum+val,0) / data.length;
+    let subject =
+        document.getElementById("subject");
 
+    subject.innerHTML = "";
 
-    // Save in browser
-
-localStorage.setItem("averagePO", avg.toFixed(1) + "%");
-localStorage.setItem(
-    "highestPO",
-    currentPONames[maxIndex - 1] + " (" + max + "%)"
-);
-
-localStorage.setItem(
-    "weakestPO",
-    currentPONames[minIndex - 1] + " (" + min + "%)"
-);
-
-
-
-    document.getElementById("averagePO").innerHTML =
-        avg.toFixed(1) + "%";
-
-    document.getElementById("highestPO").innerHTML =
-    `${currentPONames[maxIndex - 1]} (${max}%)`;
-
-document.getElementById("weakestPO").innerHTML =
-    `${currentPONames[minIndex - 1]} (${min}%)`;
-
-    if(avg >= 85){
-        document.getElementById("remarks").innerHTML =
-        "Excellent attainment achieved across most Program Outcomes.";
+    if(!departmentData[department]){
+        return;
     }
-    else if(avg >= 75){
-        document.getElementById("remarks").innerHTML =
-        "Overall attainment is satisfactory. Focus on weaker outcomes.";
+
+    if(!departmentData[department][semester]){
+        return;
     }
-    else{
-        document.getElementById("remarks").innerHTML =
-        "Improvement required in multiple Program Outcomes.";
+
+    let subjects =
+        departmentData[department][semester];
+
+    for(let subjectName in subjects){
+
+        let option =
+            document.createElement("option");
+
+        option.value = subjectName;
+        option.textContent = subjectName;
+
+        subject.appendChild(option);
     }
 }
+
 
 function updateChart(){
 
-    let sem = document.getElementById("semester").value;
-    let sub = document.getElementById("subject").value;
-   
-    let data = []; 
+    let department =
+        document.getElementById("department").value;
 
-    if(sem === "Semester 1"){
+    let semester =
+        document.getElementById("semester").value;
 
-        if(sub === "Applied Mathematics I"){
-            data = math1;
-            currentPONames = math1POs;
-        }
+    let subject =
+        document.getElementById("subject").value;
 
-        else if(sub === "Engineering Physics"){
-            data = physics1;
-            currentPONames = physics1POs;
-        }
 
-        else if(sub === "Structured Programming Methodology"){
-            data = spm1;
-            currentPONames = spm1POs;
-        }
-            
-    }
+    console.log("Department:", department);
+    console.log("Semester:", semester);
+    console.log("Subject:", subject);
 
-    else if(sem === "Semester 2"){
 
-        if(sub === "Applied Mathematics II"){
-            data = math2;
-            currentPONames = math2POs;
-        }
+    let subjectInfo =
+        departmentData[department]?.[semester]?.[subject];
 
-        else if(sub === "Engineering Chemistry"){
-            data = chemistry2; 
-            currentPONames = chemistry2POs;
-        }
 
-        else if(sub === "Applied Science for Computer Allied Subjects"){
-            data = science2;
-            currentPONames = science2POs;
-        }
+    if(!subjectInfo){
 
-        else if(sub === "Object Oriented Programming Methodology"){
-            data = oopm2;
-            currentPONames = oopm2POs;
-        }
-    }
+        alert("Please select a valid subject.");
 
-    if(data.length === 0){
-        alert("Please select a subject that belongs to the chosen semester.");
         return;
     }
- 
-    console.log("Semester =", sem);
-    console.log("Subject =", sub);
-    console.log("Data =", data);
 
 
-localStorage.setItem("dashboardData", JSON.stringify(data));
+    let data =
+        subjectInfo.values;
+
+    currentPONames =
+        subjectInfo.pos;
+
+
+    /*
+       SAVE SELECTION
+    */
 
     localStorage.setItem(
-    "dashboardLabels",
-    JSON.stringify(currentPONames)
-);
-  
+        "selectedDepartment",
+        department
+    );
+
+    localStorage.setItem(
+        "selectedSemester",
+        semester
+    );
+
+    localStorage.setItem(
+        "selectedSubject",
+        subject
+    );
 
 
-    chart.destroy();
+    /*
+       SAVE DASHBOARD DATA
+    */
 
-chart = new Chart(
-    document.getElementById("poChart"),
-    {
-        type: document.getElementById("chartType").value,
-        data: {
-            labels: currentPONames,
-            datasets: [{
-                label: "PO Attainment (%)",
-                data: data,
-                backgroundColor: "#74b9e7",
-                borderColor: "#74b9e7"
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false
-        }
+    localStorage.setItem(
+        "dashboardData",
+        JSON.stringify(data)
+    );
+
+    localStorage.setItem(
+        "dashboardLabels",
+        JSON.stringify(currentPONames)
+    );
+
+
+    /*
+       AVERAGE
+    */
+
+    let sum = 0;
+
+    for(let i = 0; i < data.length; i++){
+
+        sum += data[i];
+
     }
-);
 
-updateReport(data);
-}
+    let average =
+        sum / data.length;
 
-function changeChartType(){
 
-    let type = document.getElementById("chartType").value;
+    /*
+       HIGHEST
+    */
 
-    let currentData = chart.data.datasets[0].data;
+    let highestIndex = 0;
+
+    for(let i = 1; i < data.length; i++){
+
+        if(data[i] > data[highestIndex]){
+
+            highestIndex = i;
+
+        }
+
+    }
+
+
+    /*
+       WEAKEST
+    */
+
+    let weakestIndex = 0;
+
+    for(let i = 1; i < data.length; i++){
+
+        if(data[i] < data[weakestIndex]){
+
+            weakestIndex = i;
+
+        }
+
+    }
+
+
+    /*
+       SAVE REPORT DATA
+    */
+
+    localStorage.setItem(
+        "averagePO",
+        average.toFixed(1) + "%"
+    );
+
+    localStorage.setItem(
+        "highestPO",
+        currentPONames[highestIndex] +
+        " (" +
+        data[highestIndex] +
+        "%)"
+    );
+
+    localStorage.setItem(
+        "weakestPO",
+        currentPONames[weakestIndex] +
+        " (" +
+        data[weakestIndex] +
+        "%)"
+    );
+
+
+    /*
+       UPDATE REPORT
+    */
+
+    document.getElementById("averagePO").innerHTML =
+        average.toFixed(1) + "%";
+
+
+    document.getElementById("highestPO").innerHTML =
+        currentPONames[highestIndex] +
+        " (" +
+        data[highestIndex] +
+        "%)";
+
+
+    document.getElementById("weakestPO").innerHTML =
+        currentPONames[weakestIndex] +
+        " (" +
+        data[weakestIndex] +
+        "%)";
+
+
+    /*
+       UPDATE REMARK
+    */
+
+    if(average >= 85){
+
+        document.getElementById("remarks").innerHTML =
+            "Excellent attainment achieved across most Program Outcomes.";
+
+    }
+
+    else if(average >= 75){
+
+        document.getElementById("remarks").innerHTML =
+            "Overall attainment is satisfactory. Focus on weaker outcomes.";
+
+    }
+
+    else{
+
+        document.getElementById("remarks").innerHTML =
+            "Improvement required in multiple Program Outcomes.";
+
+    }
+
+
+    /*
+       UPDATE CHART
+    */
 
     chart.destroy();
 
     chart = new Chart(
-    document.getElementById("poChart"),
-    {
-        type:type,
-        data:{
-            labels: currentPONames,
-            datasets:[{
-                label:"PO Attainment (%)",
-                data:currentData,
-                backgroundColor:"#74b9e7",
-                borderColor:"#74b9e7"
-            }]
-        },
-            options:{
-                responsive:true,
-                maintainAspectRatio:false
+        document.getElementById("poChart"),
+        {
+            type:
+                document.getElementById("chartType").value,
+
+            data: {
+
+                labels:
+                    currentPONames,
+
+                datasets: [{
+
+                    label:
+                        "PO Attainment (%)",
+
+                    data:
+                        data,
+
+                    backgroundColor:
+                        "#74b9e7",
+
+                    borderColor:
+                        "#74b9e7"
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                maintainAspectRatio: false
+
             }
         }
     );
 
-
 }
 
-updateReport(math1);
+
+
+
 
 window.onload = function(){
 
-    let sem = localStorage.getItem("selectedSemester");
-    let sub = localStorage.getItem("selectedSubject");
+    let department =
+        localStorage.getItem("selectedDepartment");
 
-    if(sem){
-        document.getElementById("semester").value = sem;
+    let semester =
+        localStorage.getItem("selectedSemester");
+
+    let subject =
+        localStorage.getItem("selectedSubject");
+
+
+    /*
+       LOAD DEPARTMENT
+    */
+
+    if(department){
+
+        document.getElementById("department").value =
+            department;
+
     }
 
-    if(sub){
-        document.getElementById("subject").value = sub;
+
+    /*
+       LOAD SEMESTER
+    */
+
+    if(semester){
+
+        document.getElementById("semester").value =
+            semester;
+
     }
+
+
+    /*
+       CREATE SUBJECT LIST
+    */
+
+    updateSubjectList();
+
+
+    /*
+       LOAD SUBJECT
+    */
+
+    if(subject){
+
+        let subjectSelect =
+            document.getElementById("subject");
+
+        let exists = false;
+
+        for(let i = 0; i < subjectSelect.options.length; i++){
+
+            if(subjectSelect.options[i].value === subject){
+
+                exists = true;
+
+                break;
+
+            }
+
+        }
+
+
+        if(exists){
+
+            subjectSelect.value =
+                subject;
+
+        }
+
+    }
+
+
+    /*
+       UPDATE PAGE
+    */
 
     updateChart();
 
-}
-
-
-
-
+};
 
 
 

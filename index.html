@@ -9,9 +9,18 @@
 
   <link rel="stylesheet" href="style.css">
 
-  
-  <!-- Chart.js library for graphs (can make charts using javascript) -->
+  <script>
+
+if(localStorage.getItem("isLoggedIn") !== "true") {
+    window.location.href = "login.html";
+}
+
+</script>
+ 
+   
+   
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
 
 </head>
 
@@ -25,10 +34,10 @@
       <a href="index.html" class="nav-btn"> <i class="fa-solid fa-table-columns"></i>Dashboard</a>
       <a href="attainment.html" class="nav-btn"><i class="fa-solid fa-chart-column"></i>PO Attainment</a>
       <a href="analytics.html" class="nav-btn"><i class="fa-solid fa-chart-line"></i>Analytics</a>
-      <button class="nav-btn">
-         <i class="fa-solid fa-arrow-right-from-bracket"></i>
-          Logout
-      </button>
+      <button class="nav-btn" onclick="logout()">
+    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+    Logout
+</button>
     </ul>
   </div> 
 
@@ -37,7 +46,7 @@
       <h1>PO Attainment Visualization System</h1>
 
       <div class="options">
-        <select>
+        <select id="department" onchange="updateSubjectList()">
           <option>Computer Science and Business Systems</option>
           <option>Computer Engineering</option>
           <option>AIDS</option>
@@ -47,7 +56,7 @@
           <option>CCE</option>
           <option>Mechanical</option>
           <option>EXTC</option>
-          <option>Robotics and Aritificial Engineering</option>
+          <option>Robotics and Artificial Engineering</option>
           <option>Electronics Engineering (VLSI)</option>
         </select>
         <select id="semester" onchange="updateSubjectList()">
@@ -55,9 +64,6 @@
           <option>Semester 2</option>
         </select>
         <select id="subject">
-        <option>Applied Mathematics I</option>
-        <option>Engineering Physics</option>
-        <option>Structured Programming Methodology</option>
       </select>
         <button onclick="updateChart()">Apply</button>
       </div>
@@ -150,77 +156,26 @@
 
   </div>
 
-  <script src="script.js"></script>
+ 
+<script>
 
-    
+function logout() {
 
- <script>
+    localStorage.removeItem("isLoggedIn");
 
-  
-
-
-
-window.onload = function(){
-
-    let avg = localStorage.getItem("averagePO");
-
-    let high = localStorage.getItem("highestPO");
-
-    let low = localStorage.getItem("weakestPO");
-
-    if(avg){
-
-        document.getElementById("averagePO").innerHTML = avg;
-
-    }
-
-    if(high){
-
-        document.getElementById("highestPO").innerHTML = high;
-
-    }
-
-    if(low){
-
-        document.getElementById("weakestPO").innerHTML = low;
-
-    }
+    window.location.href = "login.html";
 
 }
-
-
-window.onload = function(){
-
-    let sem = localStorage.getItem("selectedSemester");
-    let sub = localStorage.getItem("selectedSubject");
-
-    if(sem){
-        document.getElementById("semester").value = sem;
-    }
-
-    updateSubjectList();
-
-    if(sub){
-        document.getElementById("subject").value = sub;
-    }
-
-    updateChart();
-
-}
-
-
-
-
-
-
-
 
 </script>
+    
+
+ 
 
 
 
 
 
-
+<script src="script.js" defer></script>
 </body>
 </html>
